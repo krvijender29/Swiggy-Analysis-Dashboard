@@ -2,7 +2,7 @@ import plotly.express as px
 import streamlit as st
 
 from src.config import COLOR_SEQ, WEEKDAY_ORDER
-from src.utils.chart_helpers import style_fig
+from src.utils.chart_helper import style_fig
 
 
 def render(fdf):
