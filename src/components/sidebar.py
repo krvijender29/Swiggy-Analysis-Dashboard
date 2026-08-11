@@ -25,7 +25,7 @@ def render_sidebar(df):
     price_range = st.sidebar.slider(
         "Price Range (INR)",
         min_value=float(np.floor(price_min)),
-        max_value=float(np.xeil(price_max)),
+        max_value=float(np.ceil(price_max)),
         value=(float(np.floor(price_min)), float(np.ceil(price_max)))
     )
 
