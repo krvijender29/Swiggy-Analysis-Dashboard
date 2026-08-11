@@ -11,7 +11,7 @@ def render_kpis(fdf):
     kpis = [
         ("Total Orders", f"{total_order:,}","🧾"),
         ("Total Revenue", f"₹{total_revenue/1e7:.2f}Cr","💰"),
-        ("Avg. Order Value", f"₹{avg_price:, .0f}","🧮"),
+        ("Avg. Order Value", f"₹{avg_price:.0f}","🧮"),
         ("Avg. Rating",f"{avg_rating:.2f}⭐","⭐"),
         ("Restaurants", f"{n_restaurants:,}","🍽️"),
         ("Cities Covered", f"{n_cities:,}","🏙️"),
