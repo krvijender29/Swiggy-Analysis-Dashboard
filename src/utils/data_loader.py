@@ -17,7 +17,7 @@ def load_data() ->pd.DataFrame:
 
 def filter_data(
         df: pd.DataFrame,
-        data_range,
+        date_range,
         states: list,
         cities: list,
         price_range: tuple,
@@ -25,8 +25,8 @@ def filter_data(
 ) -> pd.DataFrame:
     fdf = df.copy()
 
-    if len(data_range) == 2:
-        start, end = pd.to_datetime(data_range[0], pd.to_datetime(data_range[1]))
+    if len(date_range) == 2:
+        start, end = pd.to_datetime(date_range[0]), pd.to_datetime(date_range[1])
         fdf = fdf[(fdf["Order Date"]>= start) & (fdf["Order Date"] <= end)]
 
     if states:
