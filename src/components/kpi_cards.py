@@ -1,6 +1,6 @@
 import streamlit as st
 
-def render_kpi(fdf):
+def render_kpis(fdf):
     total_order = len(fdf)
     total_revenue = fdf["Price (INR)"].sum()
     avg_price = fdf["Price (INR)"].mean()
