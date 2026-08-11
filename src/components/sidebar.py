@@ -9,7 +9,7 @@ def render_sidebar(df):
     min_date, max_date = df["Order Date"].min(), df["Order Date"].max()
     date_range = st.sidebar.date_input(
         "Order Date Range",
-        value=(min_date.date(). max_date.date()),
+        value=(min_date.date().max_date.date()),
         min_value = min_date.date(),
         max_value = max_date.date(),
     )
