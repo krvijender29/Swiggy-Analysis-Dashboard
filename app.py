@@ -6,7 +6,7 @@ from src.styles import apply_custom_style
 from src.utils.data_loader import load_data, filter_data
 from src.components.sidebar import render_sidebar
 from src.components.kpi_cards import render_kpis
-from src.pages import overview, geography, categories, ratings_pricing, deep_dive
+from src.pages import overview, geography, categories, ratings_pricing, restaurants, deep_dive
 
 st.set_page_config(page_title=PAGE_TITLE, page_icon=PAGE_ICON, layout=LAYOUT, initial_sidebar_state="expanded")
 apply_custom_style()
@@ -29,8 +29,9 @@ if fdf.empty:
 
 render_kpis(fdf)
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs(
-    ["📈 Overview", "🗺️ Geography", "🍛 Categories & Dishes", "⭐ Ratings & Pricing", "📊 Deep Dive (Matplotlib)"]
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(
+    ["📈 Overview", "🗺️ Geography", "🍛 Categories & Dishes", "⭐ Ratings & Pricing",
+     "🍽️ Restaurants", "📊 Deep Dive (Matplotlib)"]
 )
 
 with tab1:
@@ -42,10 +43,12 @@ with tab3:
 with tab4:
     ratings_pricing.render(fdf)
 with tab5:
+    restaurants.render(fdf)
+with tab6:
     deep_dive.render(fdf)
 
 with st.expander("🔍 View Filtered Raw Data"):
-    st.dataframe(fdf.drop(columns=["Month", "Weekday", "Week", "Price Bucket"]), use_container_width=True)
+    st.dataframe(fdf.drop(columns=["Month", "Weekday", "Week", "Price Bucket"]), width="stretch")
     csv = fdf.to_csv(index=False).encode("utf-8")
     st.download_button("⬇️ Download Filtered Data as CSV", csv, "swiggy_filtered_data.csv", "text/csv")
 

@@ -4,6 +4,8 @@ import matplotlib.ticker as mticker
 import numpy as np
 import streamlit as st
 
+from src.utils.forecast import forecast_monthly
+
 
 def render(fdf):
     st.markdown('<div class="section-header">Static Charts (Matplotlib)</div>', unsafe_allow_html=True)
@@ -72,3 +74,34 @@ def render(fdf):
         ax.set_facecolor("none")
         fig.tight_layout()
         st.pyplot(fig)
+
+    st.markdown('<div class="section-header">Revenue Forecast (Linear Trend)</div>', unsafe_allow_html=True)
+    monthly_series = fdf.groupby("Month")["Price (INR)"].sum()
+    fc = forecast_monthly(monthly_series)
+
+    if len(fc) > len(monthly_series):
+        fig, ax = plt.subplots(figsize=(9.5, 4.2))
+        x = np.arange(len(fc))
+        actual = fc["actual"].to_numpy(dtype=float)
+        forecast = fc["forecast"].to_numpy(dtype=float)
+        ax.plot(x, actual, color="#FF6B35", marker="o", linewidth=2.2, label="Actual")
+        ax.plot(x, forecast, color="#4ecdc4", marker="D", linewidth=2.2,
+                linestyle="--", label="Forecast")
+        band_x = x[~np.isnan(forecast)]
+        band_y = forecast[~np.isnan(forecast)]
+        ax.fill_between(band_x, band_y * 0.9, band_y * 1.1,
+                        color="#4ecdc4", alpha=0.12, label="±10% band")
+        ax.set_title("Monthly Revenue — Next 3 Months Projection", fontsize=13,
+                     fontweight="bold", color="white")
+        ax.set_ylabel("Revenue (INR)")
+        ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f"{v/1e5:.0f}L"))
+        ax.set_xticks(x)
+        ax.set_xticklabels(fc.index, rotation=45, ha="right")
+        ax.legend(frameon=False)
+        ax.spines[["top", "right"]].set_visible(False)
+        fig.patch.set_alpha(0)
+        ax.set_facecolor("none")
+        fig.tight_layout()
+        st.pyplot(fig)
+    else:
+        st.caption("Not enough months of data in the current filter to project a trend.")

@@ -15,12 +15,12 @@ def render(fdf):
     with c1:
         fig = px.histogram(fdf, x="Rating", nbins=20, color_discrete_sequence=[COLOR_SEQ[0]],
                             title="Distribution of Ratings")
-        st.plotly_chart(style_fig(fig), use_container_width=True)
+        st.plotly_chart(style_fig(fig), width="stretch")
     with c2:
         fig = px.box(fdf, x="Price Bucket", y="Rating", color="Price Bucket",
                      color_discrete_sequence=COLOR_SEQ, title="Rating Spread by Price Bucket")
         fig.update_layout(showlegend=False)
-        st.plotly_chart(style_fig(fig), use_container_width=True)
+        st.plotly_chart(style_fig(fig), width="stretch")
 
     st.markdown('<div class="section-header">Price Analysis</div>', unsafe_allow_html=True)
     c3, c4 = st.columns(2)
@@ -31,12 +31,12 @@ def render(fdf):
         pb.columns = ["Price Bucket", "Orders"]
         fig = px.bar(pb, x="Price Bucket", y="Orders", color="Orders", color_continuous_scale="Oranges",
                      title="Orders by Price Bucket")
-        st.plotly_chart(style_fig(fig), use_container_width=True)
+        st.plotly_chart(style_fig(fig), width="stretch")
     with c4:
         sample = fdf.sample(min(3000, len(fdf)), random_state=1)
         fig = px.scatter(sample, x="Price (INR)", y="Rating", color="Rating Count",
                           color_continuous_scale="Turbo", opacity=0.6, title="Price vs. Rating (sampled)")
-        st.plotly_chart(style_fig(fig), use_container_width=True)
+        st.plotly_chart(style_fig(fig), width="stretch")
 
     st.markdown('<div class="section-header">Correlation Snapshot (NumPy)</div>', unsafe_allow_html=True)
     corr_cols = ["Price (INR)", "Rating", "Rating Count"]
@@ -44,4 +44,4 @@ def render(fdf):
     corr_df = pd.DataFrame(corr_matrix, index=corr_cols, columns=corr_cols)
     fig = px.imshow(corr_df, text_auto=".2f", color_continuous_scale="RdBu_r", zmin=-1, zmax=1,
                      title="Correlation Matrix — Price, Rating, Rating Count")
-    st.plotly_chart(style_fig(fig, 420), use_container_width=True)
+    st.plotly_chart(style_fig(fig, 420), width="stretch")

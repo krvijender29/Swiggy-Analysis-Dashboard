@@ -1,11 +1,11 @@
-import numpy as np
 import pandas as pd
 import streamlit as st
 
-from src.config import DATA_PATH, PRICE_BINS,PRICE_LABELS
+from src.config import DATA_PATH, PRICE_BINS, PRICE_LABELS
 
-@st.cache_data(show_spinner= "Loading Swiggy order data...")
-def load_data() ->pd.DataFrame:
+
+@st.cache_data(show_spinner="Loading Swiggy order data...")
+def load_data() -> pd.DataFrame:
     df = pd.read_excel(DATA_PATH)
     df.columns = [c.strip() for c in df.columns]
     df["Order Date"] = pd.to_datetime(df["Order Date"])
@@ -15,28 +15,33 @@ def load_data() ->pd.DataFrame:
     df["Price Bucket"] = pd.cut(df["Price (INR)"], bins=PRICE_BINS, labels=PRICE_LABELS)
     return df
 
+
 def filter_data(
         df: pd.DataFrame,
         date_range,
         states: list,
         cities: list,
         price_range: tuple,
-        rating_range: tuple
+        rating_range: tuple,
 ) -> pd.DataFrame:
     fdf = df.copy()
 
-    if len(date_range) == 2:
-        start, end = pd.to_datetime(date_range[0]), pd.to_datetime(date_range[1])
-        fdf = fdf[(fdf["Order Date"]>= start) & (fdf["Order Date"] <= end)]
+    if date_range:
+        start = pd.to_datetime(date_range[0])
+        end = pd.to_datetime(date_range[-1])
+        fdf = fdf[(fdf["Order Date"] >= start) & (fdf["Order Date"] <= end)]
 
     if states:
-        fdf = fdf[fdf["State"].isin(states)]
+        fdf = fdf[fdf["State"].isin([s.strip() for s in states])]
     if cities:
-        fdf = fdf[fdf["City"].isin(cities)]
+        fdf = fdf[fdf["City"].isin([c.strip() for c in cities])]
 
-    fdf = fdf [
-        (fdf["Price (INR)"] >= price_range[0]) & (fdf["Price (INR)"] <= price_range[1])
-         & (fdf["Rating"] >= rating_range[0]) & (fdf["Rating"] <= rating_range[1])
-    ]
+    if price_range:
+        fdf = fdf[
+            (fdf["Price (INR)"] >= price_range[0]) & (fdf["Price (INR)"] <= price_range[1])
+        ]
+    if rating_range:
+        fdf = fdf[
+            (fdf["Rating"] >= rating_range[0]) & (fdf["Rating"] <= rating_range[1])
+        ]
     return fdf
-    

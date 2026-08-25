@@ -13,13 +13,13 @@ def render(fdf):
         cat_agg.columns = ["Category", "Orders"]
         fig = px.bar(cat_agg.sort_values("Orders"), x="Orders", y="Category", orientation="h",
                      color="Orders", color_continuous_scale="Oranges", title="Top 12 Categories by Orders")
-        st.plotly_chart(style_fig(fig, 460), use_container_width=True)
+        st.plotly_chart(style_fig(fig, 460), width="stretch")
     with c2:
         cat_rev = fdf.groupby("Category")["Price (INR)"].sum().sort_values(ascending=False).head(12).reset_index()
         fig = px.treemap(cat_rev, path=["Category"], values="Price (INR)",
                           color="Price (INR)", color_continuous_scale="Sunsetdark",
                           title="Revenue Share by Category (Top 12)")
-        st.plotly_chart(style_fig(fig, 460), use_container_width=True)
+        st.plotly_chart(style_fig(fig, 460), width="stretch")
 
     st.markdown('<div class="section-header">Top Dishes</div>', unsafe_allow_html=True)
     dish_agg = fdf.groupby("Dish Name").agg(
@@ -30,4 +30,4 @@ def render(fdf):
 
     fig = px.bar(dish_agg.sort_values("Orders"), x="Orders", y="Dish Name", orientation="h",
                  color="AvgRating", color_continuous_scale="RdYlGn", title="Top 15 Dishes by Orders")
-    st.plotly_chart(style_fig(fig, 500), use_container_width=True)
+    st.plotly_chart(style_fig(fig, 500), width="stretch")
