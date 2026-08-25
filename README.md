@@ -8,9 +8,12 @@ An interactive Streamlit dashboard for exploring Swiggy food-delivery orders acr
 - **🗺️ Geography** — state & city breakdowns, bubble chart of revenue vs rating
 - **🍛 Categories & Dishes** — top categories, revenue treemap, top dishes
 - **⭐ Ratings & Pricing** — rating distribution, price buckets, price-vs-rating scatter, correlation heatmap
+- **🍽️ Restaurants** — searchable restaurant leaderboard with revenue/AOV/rating, unit-economics scatter, locality hotspots
 - **📊 Deep Dive** — static Matplotlib charts for a print-style analytical view
 - **Sidebar filters** — date range, state, city, price range, rating range
 - **CSV export** — download the currently filtered data
+- **🔮 Auto Insights** — rule-based takeaways (MoM changes, peak days, best sellers) generated from the current filter
+- **Revenue forecast** — linear-trend projection of the next 3 months with a ±10% band
 
 Built with Streamlit, Plotly, and Pandas; the Deep Dive tab uses Matplotlib.
 
@@ -49,5 +52,5 @@ The dataset is expected at `data/Swiggy_Raw_Data_Excel.xlsx` (already included i
     ├── styles.py           # Custom CSS styling
     ├── components/         # Sidebar filters, KPI cards
     ├── pages/              # One module per dashboard tab
-    └── utils/              # Data loading and filtering helpers
+    └── utils/              # Data loading, filtering, insights and forecast helpers
 ```

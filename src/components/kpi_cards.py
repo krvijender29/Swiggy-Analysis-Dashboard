@@ -24,7 +24,7 @@ def render_kpis(fdf):
                 f"""
                 <div class ="metric-card">
                     <div class="metric-label">{icon} {label}</div>
-                    <div class="metric-card">{value}</div>
+                    <div class="metric-value">{value}</div>
                 </div>
                 """,
                 unsafe_allow_html=True,
